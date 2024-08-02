@@ -1,0 +1,10 @@
+# ide
+.venv
+.idea
+.vscode
+
+# files
+.env
+
+# mac
+.DS_Store
