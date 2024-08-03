@@ -6,6 +6,7 @@ from dto.user import UserOut
 from services import todo as todo_service
 from services.user import get_current_user
 
+
 router = APIRouter()
 
 

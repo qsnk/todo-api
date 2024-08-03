@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
-from database import engine, session_factory, base
+from database import engine, base
 from routers import user as user_router
 from routers import token as token_router
 from routers import todo as todo_router

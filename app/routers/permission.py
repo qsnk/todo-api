@@ -1,13 +1,10 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.sql.functions import current_user
-
-from models.permission import Permission
 from sqlalchemy.orm import Session
 from database import connect_db
-from dto import permission as permission_dto
 from dto import user as user_dto
 from services import permission as permission_service
 from services.user import get_current_user
+
 
 router = APIRouter()
 

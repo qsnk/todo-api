@@ -5,6 +5,7 @@ from sqlalchemy import desc
 from dto import todo as todo_dto
 from dto import user as user_dto
 
+
 def get_all_todos(db: Session, user_id: int):
     try:
         todos = db.query(Todo).filter(Todo.creator_id == user_id).order_by(desc(Todo.created_at)).all()

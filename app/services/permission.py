@@ -1,7 +1,6 @@
 from models.permission import Permission
 from models.todo import Todo
 from sqlalchemy.orm import Session
-from dto import permission as permission_dto
 
 
 def get_all_permissions(db: Session, user_id: int):

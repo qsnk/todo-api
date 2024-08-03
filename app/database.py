@@ -15,7 +15,7 @@ session_factory = sessionmaker(bind=engine, autoflush=True, autocommit=False)
 base = declarative_base()
 
 
-def connect_db():
+async def connect_db():
     db = session_factory()
     try:
         yield db
