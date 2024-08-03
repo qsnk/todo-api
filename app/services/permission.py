@@ -4,49 +4,72 @@ from sqlalchemy.orm import Session
 from dto import permission as permission_dto
 
 
-def new_permission(db: Session, permission: permission_dto.Permission, todo_id: int, user_id: int):
+def get_all_permissions(db: Session, user_id: int):
     try:
-        creator = db.query(Todo.creator_id).filter(Todo.id == todo_id).scalar()
-        if creator != user_id:
-            return {'message': 'you dont have permission to edit permission to this todo'}
+        permissions = db.query(Permission).filter(Permission.user_id == user_id).all()
+        if not permissions:
+            return {'message': 'permissions not found'}
 
-        permission = db.query(Permission).filter(
-            Permission.todo_id == todo_id,
-            Permission.user_id == permission.user_id
-        ).first()
+    except Exception as e:
+        return {'message': str(e)}
 
-        if permission:
-            permission.can_view = True
-            permission.can_edit = True
+    return {'permissions': permissions}
 
-        db.add(permission)
-        db.commit()
-        db.refresh(permission)
+
+def get_permission(db: Session, id: int):
+    try:
+        permission = db.query(Permission).filter(Permission.id == id).first()
+        if not permission:
+            return {'message': 'permission not found'}
+
     except Exception as e:
         return {'message': str(e)}
 
     return permission
 
 
-# def return_permission(db: Session, permission: permission_dto.Permission):
-#     try:
-#         creator = db.query(Todo.creator_id).filter(Todo.id == todo_id).scalar()
-#         if creator != user_id:
-#             return {'message': 'you dont have permission to edit permission to this todo'}
-#
-#         permission = db.query(Permission).filter(
-#             Permission.todo_id == todo_id,
-#             Permission.user_id == permission.user_id
-#         ).first()
-#
-#         if permission:
-#             permission.can_view = True
-#             permission.can_edit = True
-#
-#         db.add(permission)
-#         db.commit()
-#         db.refresh(permission)
-#     except Exception as e:
-#         return {'message': str(e)}
-#
-#     return permission
+def new_permission(db: Session, todo_id: int, creator_id: int, user_id: int):
+    try:
+        creator = db.query(Todo).filter(Todo.creator_id == creator_id).first()
+        if not creator:
+            return {'message': 'you dont have permission to edit permission to this todo'}
+
+        permission = Permission(
+            user_id=user_id,
+            todo_id=todo_id,
+            can_view=True,
+            can_edit=True,
+            can_delete=False
+        )
+
+        db.add(permission)
+        db.commit()
+        db.refresh(permission)
+
+    except Exception as e:
+        return {'message': str(e)}
+
+    return permission
+
+
+def return_permission(db: Session, todo_id: int, user_id: int):
+    try:
+        permission = db.query(Permission).filter(
+            Permission.todo_id == todo_id,
+            Permission.user_id == user_id
+        ).first()
+
+        if not permission:
+            return {'message': 'Permission not found'}
+
+        permission.can_view = False
+        permission.can_edit = False
+        permission.can_delete = False
+
+        db.commit()
+        db.refresh(permission)
+
+    except Exception as e:
+        return {'message': str(e)}
+
+    return permission

@@ -47,19 +47,21 @@ def get_current_user(db: Session = Depends(connect_db), token: str = Depends(oau
 
 
 def update_user(db: Session, id: int, data: UserDto.User):
-    user = db.query(User).filter(User.id == id).first()
-    username = data.username
-
-    if get_username(db, username):
-        return {'message': 'username already exists'}
-
-    user.username = username
-
     try:
+        user = db.query(User).filter(User.id == id).first()
+        username = data.username
+
+        if get_username(db, username):
+            return {'message': 'username already exists'}
+
+        user.username = username
+
         db.commit()
         db.refresh(user)
+
     except Exception as e:
         return {'message': str(e)}
+
     return {'user': user}
 
 
@@ -71,4 +73,5 @@ def delete_user(db: Session, id: int):
             db.commit()
     except Exception as e:
         return {'message': str(e)}
+
     return user

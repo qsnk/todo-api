@@ -1,5 +1,18 @@
 # ToDo API application
-## Test API (from Docker)
+## API information:
+### API Docs:
+```
+GET 0.0.0.0:8000/docs
+```
+or
+```
+GET 127.0.0.1:8000/docs
+```
+or
+```
+GET localhost:8000/docs
+```
+## Running app (from Docker)
 ### 1. Clone repository:
 ```
 git clone https://github.com/qsnk/todo-api.git
@@ -22,7 +35,7 @@ POSTGRES_PASSWORD=password \
 docker-compose up
 ```
 
-## Test API (from Terminal)
+## Running app locally (from Terminal)
 ### 1. Clone repository:
 ```
 git clone https://github.com/qsnk/todo-api.git

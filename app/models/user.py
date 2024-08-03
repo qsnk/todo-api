@@ -8,5 +8,5 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     password = Column(String)
 
-    todos = relationship('Todo', back_populates='users')
+    todo = relationship('Todo', back_populates='user')
     permissions = relationship('Permission', back_populates='user')

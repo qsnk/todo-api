@@ -12,5 +12,5 @@ class Todo(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     creator_id = Column(Integer, ForeignKey('users.id'))
 
-    users = relationship('User', back_populates='todos')
+    user = relationship('User', back_populates='todo')
     permissions = relationship('Permission', back_populates='todo')

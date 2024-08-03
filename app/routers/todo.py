@@ -19,10 +19,11 @@ def get_all_todos(
 
 @router.post('/new', tags=['Todos'])
 def create_todo(
-        db: Session = Depends(connect_db), data: todo_dto.Todo = None,
+        db: Session = Depends(connect_db),
+        data: todo_dto.Todo = None,
         current_user: UserOut = Depends(get_current_user)
         ):
-    return todo_service.create_todo(db=db, data=data, creator_id=current_user.id)
+    return todo_service.create_todo(db=db, data=data, user=current_user)
 
 
 @router.get('/{id}', tags=['Todos'])
