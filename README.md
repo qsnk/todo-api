@@ -53,6 +53,7 @@ pip install -r requirements.txt
 cd app
 ```
 ### 5. Add .env file:
+by command
 ```
 echo JWT_SECRET_KEY=key \
 POSTGRES_HOST=host \
@@ -60,6 +61,14 @@ POSTGRES_DB=db \
 POSTGRES_USER=user \
 POSTGRES_PASSWORD=password \
 > .env
+```
+or manually by this structure:
+```
+JWT_SECRET_KEY=key
+POSTGRES_HOST=host
+POSTGRES_DB=db
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
 ```
 ### 6. Run app:
 ```
