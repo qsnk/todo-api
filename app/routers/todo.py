@@ -17,7 +17,7 @@ def get_all_todos(
     return todo_service.get_all_todos(db=db, user_id=current_user.id)
 
 
-@router.post('/new', tags=['Todos'])
+@router.post('/new', tags=['Todos'], response_model=todo_dto.Todo)
 def create_todo(
         db: Session = Depends(connect_db),
         data: todo_dto.Todo = None,

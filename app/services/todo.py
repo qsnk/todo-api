@@ -7,6 +7,11 @@ from dto import user as user_dto
 
 def get_all_todos(db: Session, user_id: int):
     try:
+        todos = db.query(Todo).filter(Todo.creator_id == user_id).order_by(desc(Todo.created_at)).all()
+
+        if not todos:
+            return {'message': 'todos not found'}
+
         permission = db.query(Permission).filter(
             Permission.user_id == user_id,
             Permission.can_view == True
@@ -14,11 +19,6 @@ def get_all_todos(db: Session, user_id: int):
 
         if not permission:
             return {'message': 'you dont have permission to view these todos'}
-
-        todos = db.query(Todo).filter(Todo.creator_id == user_id).order_by(desc(Todo.created_at)).all()
-
-        if not todos:
-            return {'message': 'todos not found'}
 
     except Exception as e:
         return {'message': str(e)}
@@ -52,7 +52,7 @@ def create_todo(db: Session, data: todo_dto.Todo, user: user_dto.UserOut):
     except Exception as e:
         return {'message': str(e)}
 
-    return {'todo': todo}
+    return todo
 
 
 def get_todo(db: Session, id: int, user_id: int):
