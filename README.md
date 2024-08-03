@@ -39,12 +39,12 @@ POSTGRES_DB=db
 POSTGRES_USER=user
 POSTGRES_PASSWORD=password
 ```
-## Using docker
+## Via docker
 ### Run container:
 ```
 docker-compose up
 ```
-## Locally (from Terminal)
+## Locally (Via Terminal)
 ### Install dependencies:
 ```
 pip install -r requirements.txt
