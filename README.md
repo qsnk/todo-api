@@ -40,7 +40,7 @@ POSTGRES_USER=user
 POSTGRES_PASSWORD=password
 ```
 ## Via docker
-### Run container:
+### Build image and run container:
 ```
 docker-compose up
 ```
