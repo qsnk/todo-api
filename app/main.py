@@ -6,8 +6,10 @@ from routers import token as token_router
 from routers import todo as todo_router
 from routers import permission as permission_router
 
+
 base.metadata.create_all(engine)
 app = FastAPI()
+
 
 @app.get("/", response_model=None)
 def read_root():
