@@ -1,7 +1,15 @@
+from fastapi import Depends
+from fastapi.security import OAuth2PasswordBearer
+
+from database import connect_db
 from models.user import User
 from sqlalchemy.orm import Session
 from dto import user as UserDto
 from hash_password import hash_password, verify_password
+from jwt_auth import decode_access_token
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 
 def get_username(db: Session, username: str):
@@ -34,6 +42,10 @@ def get_user(db: Session, id: int):
     return db.query(User).filter(User.id == id).first()
 
 
+def get_current_user(db: Session = Depends(connect_db), token: str = Depends(oauth2_scheme)):
+    return decode_access_token(db=db, token=token)
+
+
 def update_user(db: Session, id: int, data: UserDto.User):
     user = db.query(User).filter(User.id == id).first()
     username = data.username
@@ -52,8 +64,11 @@ def update_user(db: Session, id: int, data: UserDto.User):
 
 
 def delete_user(db: Session, id: int):
-    user = db.query(User).filter(User.id == id).first()
-    if user:
-        db.delete(user)
-        db.commit()
+    try:
+        user = db.query(User).filter(User.id == id).first()
+        if user:
+            db.delete(user)
+            db.commit()
+    except Exception as e:
+        return {'message': str(e)}
     return user

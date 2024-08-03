@@ -5,6 +5,7 @@
 
 # files
 .env
+test.http
 
 # mac
 .DS_Store

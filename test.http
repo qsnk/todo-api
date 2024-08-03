@@ -3,10 +3,16 @@ GET 127.0.0.1:8000/
 
 ###
 
-POST localhost:8000/user
+###
+GET localhost:8000/users/1
+###
+
+###
+POST localhost:8000/auth/token
 Content-Type: application/json
 
 {
-  "username": "qsnk",
-  "password": "secretpassword"
+  "username": "misha",
+  "password": "12345"
 }
+###

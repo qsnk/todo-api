@@ -3,5 +3,6 @@ sqlalchemy
 uvicorn
 pydantic
 psycopg2-binary
-jwt
+pyjwt
 passlib
+python-multipart
