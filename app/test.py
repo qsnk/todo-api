@@ -4,16 +4,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from main import app
 from database import base as Base, connect_db
-from models.user import User
-from models.todo import Todo
-from models.permission import Permission
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 
+DATABASE_URL = "sqlite:///./test.db"
+engine = create_engine(DATABASE_URL)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 Base.metadata.create_all(bind=engine)
+
 
 def override_get_db():
     try:
@@ -22,9 +19,10 @@ def override_get_db():
     finally:
         db.close()
 
-app.dependency_overrides[connect_db()] = override_get_db
 
+app.dependency_overrides[connect_db()] = override_get_db
 client = TestClient(app)
+
 
 @pytest.fixture(scope="module")
 def test_client():
@@ -32,10 +30,18 @@ def test_client():
     yield client
     Base.metadata.drop_all(bind=engine)
 
+
 def test_create_user(test_client):
     response = test_client.post("/users/new", json={"username": "testuser", "password": "testpassword"})
     assert response.status_code == 200
-    assert response.json()["username"] == "testuser"
+    assert response.json() == {"username": "testuser", "password": "testpassword"}
+
+
+def authenticate_user(test_client):
+    response = test_client.post("/auth/token", json={"username": "testuser", "password": "testpassword"})
+    assert response.status_code == 200
+    assert response.json()["access_token"] is not None
+
 
 def test_create_todo_with_permission(test_client):
     response = test_client.post("/todos/new", json={"title": "Test Todo", "description": "Test Description"})
@@ -46,10 +52,12 @@ def test_create_todo_with_permission(test_client):
     assert response.status_code == 200
     assert response.json()["can_view"] is True
 
+
 def test_get_all_todos(test_client):
     response = test_client.get("/todos")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+
 
 def test_return_permission(test_client):
     response = test_client.delete("/permissions/1/1")
