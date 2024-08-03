@@ -12,7 +12,7 @@ or
 ```
 GET localhost:8000/docs
 ```
-## Running app (from Docker)
+## Running app 
 ### 1. Clone repository:
 ```
 git clone https://github.com/qsnk/todo-api.git
@@ -22,38 +22,7 @@ git clone https://github.com/qsnk/todo-api.git
 cd todo-api
 ```
 ### 3. Add .env file:
-```
-echo JWT_SECRET_KEY=key \
-POSTGRES_HOST=host \
-POSTGRES_DB=db \
-POSTGRES_USER=user \
-POSTGRES_PASSWORD=password \
-> .env
-```
-### 4. Run container:
-```
-docker-compose up
-```
-
-## Running app locally (from Terminal)
-### 1. Clone repository:
-```
-git clone https://github.com/qsnk/todo-api.git
-```
-### 2. Change directory:
-```
-cd todo-api
-```
-### 3. Install dependencies:
-```
-pip install -r requirements.txt
-```
-### 4. Change directory:
-```
-cd app
-```
-### 5. Add .env file:
-by command
+by command:
 ```
 echo JWT_SECRET_KEY=key \
 POSTGRES_HOST=host \
@@ -70,11 +39,25 @@ POSTGRES_DB=db
 POSTGRES_USER=user
 POSTGRES_PASSWORD=password
 ```
-### 6. Run app:
+## Using docker
+### Run container:
+```
+docker-compose up
+```
+## Locally (from Terminal)
+### Install dependencies:
+```
+pip install -r requirements.txt
+```
+### Change directory:
+```
+cd app
+```
+### Run app:
 ```
 python main.py
 ```
-## Test:
+## Run tests:
 ```
 pytest test.py
 ```
