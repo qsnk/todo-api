@@ -74,3 +74,7 @@ POSTGRES_PASSWORD=password
 ```
 python main.py
 ```
+## Test:
+```
+pytest test.py
+```
