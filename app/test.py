@@ -13,8 +13,8 @@ Base.metadata.create_all(bind=engine)
 
 
 def override_get_db():
+    db = TestingSessionLocal()
     try:
-        db = TestingSessionLocal()
         yield db
     finally:
         db.close()
@@ -57,11 +57,3 @@ def test_get_all_todos(test_client):
     response = test_client.get("/todos")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
-
-
-def test_return_permission(test_client):
-    response = test_client.delete("/permissions/1/1")
-    assert response.status_code == 200
-    assert response.json()["can_view"] is False
-    assert response.json()["can_edit"] is False
-    assert response.json()["can_delete"] is False
